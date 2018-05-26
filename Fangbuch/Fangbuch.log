@@ -1,0 +1,108 @@
+/*C3*/SET SCHEMA PUBLIC
+alter table AktuelleAusruestung drop constraint FK86mhwfj2p7rvthwb36a1fdvfh
+alter table AktuelleAusruestung drop constraint FK7spgis7hjt41d6vjwnrua0rou
+alter table AktuelleAusruestung drop constraint FKc0pt17a98vumbt4qxc3t1d5qr
+alter table Fang drop constraint FKrfvonpv52isixdt3y1j6hbsf8
+alter table Fang drop constraint FKtmlki6hp4dwcf7fti27sq906f
+alter table Fang drop constraint FKowqu2tv9p4o0qblwb0enitjup
+alter table Fang drop constraint FKsg57f8od07j51lbnyalwgx488
+alter table Fang drop constraint FK6w1tv2fw0dxaqi2y2opcfwc40
+alter table Spot drop constraint FK2mlls4y9vo23rup9uarbbe4ym
+drop table Ausruestung if exists
+drop table Fang if exists
+drop table Koeder if exists
+drop table Montage if exists
+drop table Spot if exists
+drop table Wetter if exists
+alter table AUSRUESTUNGZUSESSION drop constraint FK6jvlq7rtwt703sy55n7jgcc7l
+alter table AUSRUESTUNGZUSESSION drop constraint FKo0povj937a09n3cjpg1j2pp01
+alter table FISCHEZUSEEN drop constraint FK84hcjfgka1l6gpqowmqhjon99
+alter table FISCHEZUSEEN drop constraint FKpx4fy14u37pql7psouvnvty00
+drop table AUSRUESTUNGZUSESSION if exists
+drop table FISCHEZUSEEN if exists
+drop sequence hibernate_sequence if exists
+create table Ausruestung (id bigint not null, bemerkung varchar(255), name varchar(255), primary key (id))
+create table Fang (id bigint not null, bemerkung varchar(255), erstelldatum timestamp, fangzeit time, gewicht integer, temperatur double, aktuelleAusruestung_id bigint, fisch_bezeichnung varchar(30), session_id bigint, spot_id bigint, wetter_id bigint, primary key (id))
+create table Koeder (id bigint not null, kategorie varchar(255), name varchar(255), primary key (id))
+create table Montage (id bigint not null, name varchar(255), punkte integer, primary key (id))
+create table Spot (id bigint not null, bemerkung varchar(255), name varchar(255), x integer, y integer, see_name varchar(30), primary key (id))
+create table Wetter (id bigint not null, art varchar(255), primary key (id))
+create sequence hibernate_sequence start with 1 increment by 1
+create table AUSRUESTUNGZUSESSION (Session_id bigint not null, aktuelleAusr\u00fcstung_id bigint not null)
+create table FISCHEZUSEEN (BEZEICHNUNG varchar(30) not null, NAME varchar(30) not null)
+alter table Fang add constraint FKrfvonpv52isixdt3y1j6hbsf8 foreign key (aktuelleAusruestung_id) references AktuelleAusruestung
+alter table Fang add constraint FKtmlki6hp4dwcf7fti27sq906f foreign key (fisch_bezeichnung) references Fisch
+alter table Fang add constraint FKowqu2tv9p4o0qblwb0enitjup foreign key (session_id) references Session
+alter table Fang add constraint FKsg57f8od07j51lbnyalwgx488 foreign key (spot_id) references Spot
+alter table Fang add constraint FK6w1tv2fw0dxaqi2y2opcfwc40 foreign key (wetter_id) references Wetter
+alter table Spot add constraint FK2mlls4y9vo23rup9uarbbe4ym foreign key (see_name) references See
+alter table AUSRUESTUNGZUSESSION add constraint FK6jvlq7rtwt703sy55n7jgcc7l foreign key (aktuelleAusr\u00fcstung_id) references AktuelleAusruestung
+alter table AUSRUESTUNGZUSESSION add constraint FKo0povj937a09n3cjpg1j2pp01 foreign key (Session_id) references Session
+alter table FISCHEZUSEEN add constraint FK84hcjfgka1l6gpqowmqhjon99 foreign key (NAME) references See
+alter table FISCHEZUSEEN add constraint FKpx4fy14u37pql7psouvnvty00 foreign key (BEZEICHNUNG) references Fisch
+DELETE FROM SEE WHERE NAME='Sura'
+INSERT INTO SEE VALUES('Sura',0)
+COMMIT
+INSERT INTO SEE VALUES('gro\u00dfer Strom',0)
+COMMIT
+DELETE FROM SEE WHERE NAME='Sura'
+INSERT INTO SEE VALUES('Sura',24)
+COMMIT
+DELETE FROM SEE WHERE NAME='gro\u00dfer Strom'
+INSERT INTO SEE VALUES('gro\u00dfer Strom',20)
+COMMIT
+INSERT INTO SPOT VALUES(1,NULL,'Test 1',NULL,NULL,'Sura')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO SPOT VALUES(2,NULL,'Test 2',NULL,NULL,'Sura')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO FISCHEZUSEEN VALUES('Aland','Sura')
+COMMIT
+INSERT INTO FISCHEZUSEEN VALUES('Brasse','Sura')
+COMMIT
+INSERT INTO KOEDER VALUES(3,NULL,'Tauwurm')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO KOEDER VALUES(4,NULL,'Erbsenbrei')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO AUSRUESTUNG VALUES(5,'Rute, Rolle, ...','Test')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO AUSRUESTUNG VALUES(6,'Rute, Rolle, ...','Test')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+INSERT INTO MONTAGE VALUES(7,'Schlaufe',1)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 8
+COMMIT
+INSERT INTO MONTAGE VALUES(8,'einfache Grund',3)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 9
+COMMIT
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 10
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 11
+INSERT INTO WETTER VALUES(11,'Sonnig')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 12
+COMMIT
+INSERT INTO WETTER VALUES(12,'Bew\u00f6lkt')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 13
+COMMIT
+INSERT INTO FANG VALUES(13,NULL,'2018-05-23 20:44:57.554000','20:44:57',1500,NULL,9,'Brasse',10,1,12)
+DELETE FROM SESSION WHERE ID=10
+INSERT INTO SESSION VALUES(10,'Dominic',NULL,'19:00:00','2018-05-23 20:44:57.533000')
+INSERT INTO AUSRUESTUNGZUSESSION VALUES(10,9)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 14
+COMMIT
+INSERT INTO FANG VALUES(14,NULL,'2018-05-23 20:44:57.571000','20:44:57',1501,NULL,9,'Brasse',10,1,12)
+DELETE FROM AUSRUESTUNGZUSESSION WHERE SESSION_ID=10 AND AKTUELLEAUSR\u00dcSTUNG_ID=9
+INSERT INTO AUSRUESTUNGZUSESSION VALUES(10,9)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 15
+COMMIT
+INSERT INTO FANG VALUES(15,NULL,'2018-05-23 20:44:57.576000','20:44:57',1502,NULL,9,'Brasse',10,1,12)
+DELETE FROM AUSRUESTUNGZUSESSION WHERE SESSION_ID=10 AND AKTUELLEAUSR\u00dcSTUNG_ID=9
+INSERT INTO AUSRUESTUNGZUSESSION VALUES(10,9)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 16
+COMMIT
+DELETE FROM SEE WHERE NAME='gro\u00dfer Strom'
+COMMIT
+DISCONNECT
