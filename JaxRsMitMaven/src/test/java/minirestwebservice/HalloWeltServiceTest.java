@@ -32,7 +32,6 @@ public class HalloWeltServiceTest
          Assert.assertEquals( "Plain-Text: Hallo MeinName", txt );
 
          Assert.assertEquals( "<html><title>HelloWorld</title><body><h2>Html: Hallo MeinName</h2></body></html>", htm );
-         Assert.assertEquals( "<html><title>HelloWorld</title><body><h2>Html: Hallo MeinName</h2></body></html>", htm );
       } finally {
          // Testserver beenden:
          server.shutdown();
