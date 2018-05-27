@@ -13,6 +13,7 @@ import org.junit.*;
 
 import com.google.gson.Gson;
 
+import rf4.fangbuch.entities.Session;
 import rf4.fangbuch.server.FangbuchWeb;
 
 public class SessionTest {
@@ -39,8 +40,8 @@ public class SessionTest {
 			String readEntity = txt.readEntity(String.class);
 
 			Gson g = new Gson();
-			String fromJson = g.fromJson(readEntity, String.class);
-			Assert.assertEquals("Session", fromJson);
+			Session fromJson = g.fromJson(readEntity, Session.class);
+			Assert.assertEquals(name, fromJson.getBenutzer());
 
 		} finally {
 			// Testserver beenden:
