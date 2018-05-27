@@ -1,4 +1,4 @@
-package de.rf4.server;
+package rf4.fangbuch.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,13 +13,14 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
-@Path("Fangbuch/Session")
+@Path(FangbuchWeb.webContextPath)
 public class FangbuchWeb
 {
-    private Logger log = Logger.getLogger(getClass().getName());
+    public static final String webContextPath = "Fangbuch";
+	private Logger log = Logger.getLogger(getClass().getName());
     
     @POST
-    @Path("erstelleSession")
+    @Path("/Session/erstelleSession")
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response erstelleSession(@QueryParam("benutzer") String benutzer)
     {
@@ -37,7 +38,7 @@ public class FangbuchWeb
     }
 
     @GET
-    @Path("getOffeneSessions")
+    @Path("/Session/getOffeneSessions")
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response getOffeneSessions(@QueryParam("benutzer") String benutzer)
     {
